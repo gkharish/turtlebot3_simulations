@@ -26,7 +26,7 @@ def generate_launch_description():
     TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
     model_folder = 'turtlebot3_' + TURTLEBOT3_MODEL
     urdf_path = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
+        get_package_share_directory('turtlebot3_gazebo_satvik'),
         'models',
         model_folder,
         'model.sdf'
@@ -35,7 +35,7 @@ def generate_launch_description():
     # Launch configuration variables specific to simulation
     x_pose = LaunchConfiguration('x_pose', default='0.0')
     y_pose = LaunchConfiguration('y_pose', default='0.0')
-    rover_id = LaunchConfiguration('rover_id', default='1')
+    rover_id = LaunchConfiguration('rover_id', default='bot')
     # Declare the launch arguments
     declare_x_position_cmd = DeclareLaunchArgument(
         'x_pose', default_value='0.0',
@@ -46,7 +46,7 @@ def generate_launch_description():
         description='Specify namespace of the robot')
     
     declare_rover_id_cmd = DeclareLaunchArgument(
-        'rover_id', default_value='1',
+        'rover_id', default_value='',
         description='Specify namespace of the robot')
     
     start_gazebo_ros_spawner_cmd = Node(
@@ -54,9 +54,9 @@ def generate_launch_description():
         executable='spawn_entity.py',
         namespace=rover_id,
         arguments=[
+            '-robot_namespace', rover_id,
             '-entity', rover_id,
             '-file', urdf_path,
-            '-robot_namespace', rover_id,
             '-x', x_pose,
             '-y', y_pose,
             '-z', '0.01'

@@ -30,15 +30,15 @@ from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
-    launch_file_dir = os.path.join(get_package_share_directory('turtlebot3_gazebo'), 'launch')
+    launch_file_dir = os.path.join(get_package_share_directory('turtlebot3_gazebo_satvik'), 'launch')
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    x_pose = LaunchConfiguration('x_pose', default='-2.0')
-    y_pose = LaunchConfiguration('y_pose', default='1.5')
+    x_pose = LaunchConfiguration('x_pose', default='-4.0')
+    y_pose = LaunchConfiguration('y_pose', default='0.5')
 
     world = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
+        get_package_share_directory('turtlebot3_gazebo_satvik'),
         'worlds',
         'turtlebot3_house.world'
     )
@@ -88,7 +88,7 @@ def generate_launch_description():
 
         ]
     )
-
+  
     launch_bot2 = GroupAction(
         actions=[
             # push-ros-namespace to set namespace of included nodes
@@ -112,27 +112,7 @@ def generate_launch_description():
 
         ]
     )
-    # spawn_turtlebot_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(launch_file_dir, 'spawn_turtlebot3.launch.py')
-    #     ),
-    #     launch_arguments={
-    #         'x_pose': x_pose,
-    #         'y_pose': y_pose,
-    #         'rover_id': 'bot_1'
-    #     }.items()
-    # )
 
-    spawn_turtlebot_cmd2 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(launch_file_dir, 'spawn_turtlebot3.launch.py')
-        ),
-        launch_arguments={
-            'x_pose': '-1.0',
-            'y_pose': y_pose,
-            'rover_id': 'bot_2'
-        }.items()
-    )
 
     ld = LaunchDescription()
 
